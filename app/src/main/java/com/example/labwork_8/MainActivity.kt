@@ -34,9 +34,17 @@ class MainActivity : AppCompatActivity() {
 
         // Setup RecyclerView
         val recyclerView: RecyclerView = findViewById(R.id.listItem)
-        recipeAdapter = RecipeAdapter(recipeList) { recipeId ->
+        recipeAdapter = RecipeAdapter(recipeList, { recipeId ->
             deleteRecipe(recipeId)
-        }
+        }, { recipe ->
+            // Открыть экран с деталями рецепта
+            val intent = Intent(this, RecipeDetailActivity::class.java).apply {
+                putExtra("recipeName", recipe.name)
+                putExtra("ingredients", recipe.ingredients)
+                putExtra("instructions", recipe.instructions)
+            }
+            startActivity(intent)
+        })
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recipeAdapter
 
@@ -73,3 +81,4 @@ class MainActivity : AppCompatActivity() {
             .addOnFailureListener { Toast.makeText(this, "Failed to delete recipe.", Toast.LENGTH_SHORT).show() }
     }
 }
+

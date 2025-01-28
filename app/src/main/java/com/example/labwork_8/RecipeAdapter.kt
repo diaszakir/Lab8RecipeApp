@@ -9,7 +9,8 @@ import com.example.labwork_8.Recipe
 
 class RecipeAdapter(
     private val recipes: List<Recipe>,
-    private val onDelete: (String) -> Unit
+    private val onDelete: (String) -> Unit,
+    private val onItemClick: (Recipe) -> Unit // Новый параметр для обработки кликов
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     inner class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -21,6 +22,7 @@ class RecipeAdapter(
             nameText.text = recipe.name
             ingredientsText.text = recipe.ingredients
             deleteButton.setOnClickListener { recipe.id?.let { onDelete(it) } }
+            itemView.setOnClickListener { onItemClick(recipe) } // Обработка клика по элементу списка
         }
     }
 
