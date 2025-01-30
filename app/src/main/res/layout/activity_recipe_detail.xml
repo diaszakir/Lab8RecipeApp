@@ -58,6 +58,13 @@
             tools:layout_editor_absoluteX="14dp"
             tools:layout_editor_absoluteY="275dp" />
 
+        <ImageView
+            android:id="@+id/ivRecipeImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:paddingBottom="8dp"
+            />
+
     </LinearLayout>
 
     <TextView
@@ -80,6 +87,7 @@
         android:layout_height="75dp"
         android:backgroundTint="@color/button"
         android:text="Return"
+        android:onClick="returnBtn"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

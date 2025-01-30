@@ -2,13 +2,9 @@ package com.example.labwork_8
 
 import RecipeAdapter
 import android.content.Intent
-import android.database.DatabaseUtils
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,9 +38,16 @@ class MainActivity : AppCompatActivity() {
                 putExtra("recipeName", recipe.name)
                 putExtra("ingredients", recipe.ingredients)
                 putExtra("instructions", recipe.instructions)
+                putExtra("recipeID", recipe.id)
             }
             startActivity(intent)
-        })
+        }, { recipe ->
+            // Обработчик нажатия на изображение (например, открытие в полном экране)
+            val intent = Intent(this, RecipeDetailActivity::class.java).apply {
+                putExtra("imageUrl", recipe.imageUrl)
+            }
+            startActivity(intent)
+        });
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recipeAdapter
 
@@ -64,7 +67,8 @@ class MainActivity : AppCompatActivity() {
                 recipeList.clear()
                 for (recipeSnapshot in snapshot.children) {
                     val recipe = recipeSnapshot.getValue(Recipe::class.java)
-                    recipe?.let { recipeList.add(it.copy(id = recipeSnapshot.key)) }
+                    recipe?.let { recipeSnapshot.key?.let { it1 -> it.copy(id = it1) }
+                        ?.let { it2 -> recipeList.add(it2) } }
                 }
                 recipeAdapter.notifyDataSetChanged()
             }
